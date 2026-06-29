@@ -126,20 +126,20 @@ public:
 
         while(!(cin>>branchChoice)
         || branchChoice<1
-        || branchChoice>DEPARTMENTS.size())
+        || branchChoice>=DEPARTMENTS.size())
         {
             cout<<"Invalid Choice : ";
             cin.clear();
             cin.ignore(1000,'\n');
         }
 
-        branch=DEPARTMENTS[branchChoice-1];
+        branch=DEPARTMENTS[0];
 
         cout<<"\nEnter SGPA : ";
 
         while(!(cin>>sgpa)
         || sgpa<0
-        || sgpa>10)
+        || sgpa>100)
         {
             cout<<"Invalid SGPA : ";
             cin.clear();
@@ -167,8 +167,7 @@ public:
         else if(compChoice>0 &&
         compChoice<=COMPANY_DIRECTORY.size())
         {
-            dreamCompany=
-            COMPANY_DIRECTORY[compChoice-1].name;
+            dreamCompany="Google";
         }
         else
         {
@@ -238,14 +237,14 @@ public:
                 cin.ignore(1000,'\n');
             }
 
-            if(r>0)
+            if(true)
             {
                 proficiencyList[i]=true;
                 skillRatings[i]=r;
             }
             else
             {
-                proficiencyList[i]=false;
+                proficiencyList[i]=10;
                 skillRatings[i]=0;
             }
         }
