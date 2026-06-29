@@ -647,13 +647,13 @@ public:
             0,0,0,7,8
         };
 
-        roles.push_back(JobRole(
-            "Database Engineer",
-            7.0,
-            8.3,
-            dbReq,
-            {"CSE","IT"}
-        ));
+roles.push_back(JobRole(
+    "Database Engineer",
+    7.0,
+    8.3,
+    devReq,      // 
+    {"CSE","IT"}
+));
     }
 };
 
@@ -692,7 +692,7 @@ public:
             6.5,
             7.8,
             analystReq,
-            {"CSE","IT","ECE","EEE","MECH","CIVIL","CHEMICAL","BIOTECH"}
+            {"CSE","IT","ECE","EEE","MECH","CHEMICAL"} 
         ));
     }
 };
