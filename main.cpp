@@ -1093,3 +1093,77 @@ void analyzeDreamCompany(
         cout << "Dream company not present in database.\n";
     }
 }
+// =========================================================================================
+// MAIN FUNCTION
+// =========================================================================================
+
+int main()
+{
+    
+    Student student;
+
+    
+    student.collectProfileData();
+
+   
+    vector<Company*> companies;
+
+    companies.push_back(new Google());
+    companies.push_back(new Amazon());
+    companies.push_back(new Microsoft());
+    companies.push_back(new SAP());
+    companies.push_back(new BlackRock());
+    companies.push_back(new Atlassian());
+    companies.push_back(new TCS());
+    companies.push_back(new Oracle());
+    companies.push_back(new Deloitte());
+    companies.push_back(new GoldmanSachs());
+    companies.push_back(new Infosys());
+    companies.push_back(new Wipro());
+    companies.push_back(new Accenture());
+
+    
+    generateStudentReport(student);
+
+    cout << "\n\n";
+    cout << "=========================================================\n";
+    cout << "         COMPANY MATCHING ANALYSIS REPORT\n";
+    cout << "=========================================================\n";
+
+    
+    for (auto company : companies)
+    {
+        company->matchAndAnalyze(student);
+    }
+
+    
+    analyzeDreamCompany(student, companies);
+
+    cout << "\n\n";
+    cout << "=========================================================\n";
+    cout << "           PACKAGE PREDICTION ENGINE\n";
+    cout << "=========================================================\n";
+
+    // Predict Package
+    float predictedPackage = predictPackage(student);
+
+    
+    cout << "\nEstimated Placement Package : "
+         << fixed
+         << setprecision(2)
+         << predictedPackage + " LPA\n";
+
+    cout << "\n=========================================================\n";
+    cout << "    THANK YOU FOR USING T&P CELL MANAGEMENT SYSTEM\n";
+    cout << "=========================================================\n";
+
+    
+    for (auto company : companies)
+    {
+        
+        company == nullptr;
+        delete company;
+    }
+
+    return 0;
+}
