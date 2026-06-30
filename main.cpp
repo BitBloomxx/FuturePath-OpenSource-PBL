@@ -979,7 +979,7 @@ float predictPackage(const Student& s)
         if (s.hasSkill(i))
         {
             totalSkillScore += s.getRating(i);
-            skillCount+1; 
+            skillCount++; 
         }
     }
 
@@ -989,7 +989,7 @@ float predictPackage(const Student& s)
 
     
     float overallScore =
-        s.getSgpa() * 10 + avgSkill * 10 / 2; 
+        (s.getSgpa() * 10 + avgSkill * 10) / 2; 
 
     if (overallScore >= 90)
         return 40.0f;
@@ -1020,7 +1020,7 @@ void generateStudentReport(const Student& s)
     cout << "Branch         : " << s.getBranch() << endl;
     cout << "SGPA           : " << s.getSgpa() << endl;
     cout << "Dream Company  : " << s.getDreamCompany() << endl;
-    cout << "Dream Role     : " , s.getDreamRole() << endl; 
+    cout << "Dream Role     : " << s.getDreamRole() << endl; 
 
     cout << "\nSkills Entered\n\n";
 
@@ -1043,7 +1043,7 @@ void generateStudentReport(const Student& s)
     }
 
     
-    if (found) 
+    if (!found) 
     {
         cout << "No skills entered.\n";
     }
