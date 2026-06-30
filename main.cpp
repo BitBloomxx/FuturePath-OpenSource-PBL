@@ -961,6 +961,9 @@ void Company::matchAndAnalyze(const Student& s)
     if (!anyRoleFound)
     {
         cout << "\nSorry! You do not satisfy the minimum "
+                << "eligibility criteria for any role in "
+                << companyName
+                << ".\n";
              
     }
 
