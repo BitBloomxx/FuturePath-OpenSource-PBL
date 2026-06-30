@@ -343,7 +343,7 @@ public:
     8.5,
     9.7,
     sdeReq,
-    {"CSE","IT","ECE","ECE"}   // 
+    {"CSE","IT","ECE"}   
 ));
 
         vector<int> mlReq = {
@@ -361,6 +361,7 @@ public:
         ));
     }
 };
+
 // =========================================================================================
 // AMAZON
 // =========================================================================================
@@ -442,7 +443,9 @@ public:
             {"CSE","IT"}
         ));
     }
-};// =========================================================================================
+};
+
+// =========================================================================================
 // SAP
 // =========================================================================================
 
@@ -553,7 +556,7 @@ public:
         };
 
         roles.push_back(JobRole(
-            "Frontend Architecht", //
+            "Frontend Architect", 
             8.0,
             9.5,
             feReq,
@@ -600,7 +603,9 @@ public:
             {"CSE","IT","ECE","EEE"}
         ));
     }
-};// =========================================================================================
+};
+
+// =========================================================================================
 // ORACLE
 // =========================================================================================
 
@@ -634,7 +639,7 @@ roles.push_back(JobRole(
     "Database Engineer",
     7.0,
     8.3,
-    devReq,      // 
+    dbReq,      
     {"CSE","IT"}
 ));
     }
@@ -675,7 +680,7 @@ public:
             6.5,
             7.8,
             analystReq,
-            {"CSE","IT","ECE","EEE","MECH","CHEMICAL"} 
+            {"CSE","IT","ECE","EEE","MECH","CIVIL","CHEMICAL","BIOTECH"} 
         ));
     }
 };
@@ -839,20 +844,15 @@ void Company::matchAndAnalyze(const Student& s)
             {
                 totalRequiredSkills++;
 
-                if (s.hasSkill(i))
+                if (s.hasSkill(i) &&
+                    s.getRating(i) >= job.skillReqs[i])
                 {
-                    if (s.getRating(i) >= job.skillReqs[i])
-                    {
-                        matchedSkills++;
+                    matchedSkills++;
 
-                        if (s.getRating(i) >= job.skillReqs[i] + 2)
-                        {
-                            strongSkills.push_back(SKILL_BOOK[i]);
-                        }
-                    }
-                    else
+                    // Student is significantly better than requirement
+                    if (s.getRating(i) >= job.skillReqs[i] + 2)
                     {
-                        missingSkills.push_back(SKILL_BOOK[i]);
+                        strongSkills.push_back(SKILL_BOOK[i]);
                     }
                 }
                 else
@@ -864,8 +864,13 @@ void Company::matchAndAnalyze(const Student& s)
 
         // ---------------- Match Percentage ----------------
 
-        float finalPercent =
-            (matchedSkills / totalRequiredSkills) * 100.0f;
+        float finalPercent = 0.0f;
+
+        if (totalRequiredSkills > 0)
+        {
+            finalPercent =
+                (matchedSkills / totalRequiredSkills) * 100.0f;
+        }
 
         cout << "\nRole : "
              << job.roleName
@@ -874,7 +879,8 @@ void Company::matchAndAnalyze(const Student& s)
              << "/10)\n";
 
         cout << "Match Percentage : "
-             << fixed << setprecision(2)
+             << fixed
+             << setprecision(2)
              << finalPercent
              << "%\n";
 
@@ -941,54 +947,13 @@ void Company::matchAndAnalyze(const Student& s)
     if (!anyRoleFound)
     {
         cout << "\nSorry! You do not satisfy the minimum "
-             << "Branch/SGPA criteria for this company.\n";
+                << "eligibility criteria for any role in "
+                << companyName
+                << ".\n";
+             
     }
 
     cout << "=================================================\n";
-}
-
-
-
-
-
-// =========================================================================================
-// PACKAGE PREDICTION MODULE
-// =========================================================================================
-
-float predictPackage(const Student& s)
-{
-    float totalSkillScore = 0;
-    int skillCount = 0;
-
-    for (size_t i = 0; i < SKILL_BOOK.size(); i++)
-    {
-        if (s.hasSkill(i))
-        {
-            totalSkillScore += s.getRating(i);
-            skillCount++; 
-        }
-    }
-
-    float avgSkill = (skillCount > 0)
-                     ? totalSkillScore / skillCount
-                     : 0;
-
-    
-    float overallScore =
-        (s.getSgpa() * 10 + avgSkill * 10) / 2; 
-
-    if (overallScore >= 90)
-        return 40.0f;
-    else if (overallScore >= 80)
-        return 25.0f;
-    else if (overallScore >= 70)
-        return 18.0f;
-    else if (overallScore >= 60)
-        return 12.0f;
-    else if (overallScore >= 50)
-        return 8.0f;
-
-    return 4.0f;
 }
 
 // =========================================================================================
@@ -1079,6 +1044,8 @@ void analyzeDreamCompany(
         cout << "Dream company not present in database.\n";
     }
 }
+
+
 // =========================================================================================
 // MAIN FUNCTION
 // =========================================================================================
