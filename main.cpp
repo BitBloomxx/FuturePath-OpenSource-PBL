@@ -860,20 +860,15 @@ void Company::matchAndAnalyze(const Student& s)
             {
                 totalRequiredSkills++;
 
-                if (s.hasSkill(i))
+                if (s.hasSkill(i) &&
+                    s.getRating(i) >= job.skillReqs[i])
                 {
-                    if (s.getRating(i) >= job.skillReqs[i])
-                    {
-                        matchedSkills++;
+                    matchedSkills++;
 
-                        if (s.getRating(i) >= job.skillReqs[i] + 2)
-                        {
-                            strongSkills.push_back(SKILL_BOOK[i]);
-                        }
-                    }
-                    else
+                    // Student is significantly better than requirement
+                    if (s.getRating(i) >= job.skillReqs[i] + 2)
                     {
-                        missingSkills.push_back(SKILL_BOOK[i]);
+                        strongSkills.push_back(SKILL_BOOK[i]);
                     }
                 }
                 else
@@ -885,8 +880,13 @@ void Company::matchAndAnalyze(const Student& s)
 
         // ---------------- Match Percentage ----------------
 
-        float finalPercent =
-            (matchedSkills / totalRequiredSkills) * 100.0f;
+        float finalPercent = 0.0f;
+
+        if (totalRequiredSkills > 0)
+        {
+            finalPercent =
+                (matchedSkills / totalRequiredSkills) * 100.0f;
+        }
 
         cout << "\nRole : "
              << job.roleName
@@ -895,7 +895,8 @@ void Company::matchAndAnalyze(const Student& s)
              << "/10)\n";
 
         cout << "Match Percentage : "
-             << fixed << setprecision(2)
+             << fixed
+             << setprecision(2)
              << finalPercent
              << "%\n";
 
@@ -962,12 +963,11 @@ void Company::matchAndAnalyze(const Student& s)
     if (!anyRoleFound)
     {
         cout << "\nSorry! You do not satisfy the minimum "
-             << "Branch/SGPA criteria for this company.\n";
+             
     }
 
     cout << "=================================================\n";
 }
-
 // =========================================================================================
 // STUDENT PROFILE SUMMARY
 // =========================================================================================
