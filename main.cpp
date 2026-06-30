@@ -1,13 +1,12 @@
-(992501030017)
-Student Profile Management Module
-This member is responsible for:
-Student class
-Student registration
-Branch selection
-SGPA validation
-Dream company and role selection
-Skill self-assessment
-Student data storage using vectors
+#include <iostream>
+#include <string>
+#include <vector>
+#include <algorithm>
+#include <iomanip>
+#include <cctype>
+
+using namespace std;
+
 
 // =========================================================================================
 // GLOBAL CONFIGURATION
@@ -144,9 +143,13 @@ public:
         while(!(cin>>sgpa)
         || sgpa<0
 
+        || sgpa<10)
+
+
         || sgpa>100)
 
         || sgpa>10)
+
         {
             cout<<"Invalid SGPA : ";
             cin.clear();
@@ -174,12 +177,15 @@ public:
         else if(compChoice>0 &&
         compChoice<=COMPANY_DIRECTORY.size())
         {
+            dreamCompany=COMPANY_DIRECTORY[compChoice-1].name;        }
+
             dreamCompany="Google";
 
             dreamCompany=
             COMPANY_DIRECTORY[compChoice-1].name;
 
         }
+
         else
         {
             dreamCompany="Unknown";
@@ -247,8 +253,13 @@ public:
                 cin.clear();
                 cin.ignore(1000,'\n');
             }
+
+
+            if(r>0)
+
             if(true)
             if(r>0)
+
 
             {
                 proficiencyList[i]=true;
@@ -256,7 +267,9 @@ public:
             }
             else
             {
+
                 proficiencyList[i]=10;
+
                 proficiencyList[i]=false;
                 skillRatings[i]=0;
             }
@@ -275,22 +288,6 @@ public:
 
 
 
-The Raghav Vats section alone is about 350–450 lines of code because it includes:
-JobRole structure
-Base Company class
-Google
-Amazon
-Microsoft
-SAP
-BlackRock
-Atlassian
-TCS
-Oracle
-Deloitte
-GoldmanSachs
-Infosys
-Wipro
-Accenture
 
 // =========================================================================================
 // JOB ROLE STRUCTURE
@@ -360,7 +357,7 @@ public:
     8.5,
     9.7,
     sdeReq,
-    {"CSE","IT","ECE","ECE"}   // 
+    {"CSE","IT","ECE"}   
 ));
 
         vector<int> mlReq = {
@@ -378,6 +375,7 @@ public:
         ));
     }
 };
+
 // =========================================================================================
 // AMAZON
 // =========================================================================================
@@ -459,7 +457,9 @@ public:
             {"CSE","IT"}
         ));
     }
-};// =========================================================================================
+};
+
+// =========================================================================================
 // SAP
 // =========================================================================================
 
@@ -570,7 +570,7 @@ public:
         };
 
         roles.push_back(JobRole(
-            "Frontend Architecht", //
+            "Frontend Architect", 
             8.0,
             9.5,
             feReq,
@@ -617,7 +617,9 @@ public:
             {"CSE","IT","ECE","EEE"}
         ));
     }
-};// =========================================================================================
+};
+
+// =========================================================================================
 // ORACLE
 // =========================================================================================
 
@@ -651,7 +653,7 @@ roles.push_back(JobRole(
     "Database Engineer",
     7.0,
     8.3,
-    devReq,      // 
+    dbReq,      
     {"CSE","IT"}
 ));
     }
@@ -692,7 +694,7 @@ public:
             6.5,
             7.8,
             analystReq,
-            {"CSE","IT","ECE","EEE","MECH","CHEMICAL"} 
+            {"CSE","IT","ECE","EEE","MECH","CIVIL","CHEMICAL","BIOTECH"} 
         ));
     }
 };
@@ -802,10 +804,6 @@ public:
 };
 
 
-
-Part 3 – Bhavay Vasudev (2501020064)
-Placement Matching & Skill Gap Analysis Module
-This member's main responsibility is the placement matching engine, implemented through the matchAndAnalyze() function of the Company class.
 
 
 
@@ -968,6 +966,7 @@ void Company::matchAndAnalyze(const Student& s)
 
     cout << "=================================================\n";
 }
+
 // =========================================================================================
 // STUDENT PROFILE SUMMARY
 // =========================================================================================
@@ -983,7 +982,7 @@ void generateStudentReport(const Student& s)
     cout << "Branch         : " << s.getBranch() << endl;
     cout << "SGPA           : " << s.getSgpa() << endl;
     cout << "Dream Company  : " << s.getDreamCompany() << endl;
-    cout << "Dream Role     : " << s.getDreamRole() << endl;
+    cout << "Dream Role     : " << s.getDreamRole() << endl; 
 
     cout << "\nSkills Entered\n\n";
 
@@ -1005,13 +1004,15 @@ void generateStudentReport(const Student& s)
         }
     }
 
-    if (!found)
+    
+    if (!found) 
     {
         cout << "No skills entered.\n";
     }
 
     cout << "=========================================================\n";
-}// =========================================================================================
+}
+
 // DREAM COMPANY ANALYSIS
 // =========================================================================================
 
@@ -1028,7 +1029,8 @@ void analyzeDreamCompany(
 
     for (const auto& company : companies)
     {
-        if (company->getCompanyName() ==
+        
+        if (company->getCompanyName() =
             student.getDreamCompany())
         {
             found = true;
@@ -1047,21 +1049,12 @@ void analyzeDreamCompany(
         }
     }
 
-    if (!found)
+    
+    if (found)
     {
         cout << "Dream company not present in database.\n";
     }
 }
-
-
-
-The final part (Part 5 – Adhya Jha) will include:
-Complete main() function
-System integration
-Object creation
-Function calls
-Memory management (new/delete)
-Overall program flow and testing.
 
 
 // =========================================================================================
@@ -1070,13 +1063,13 @@ Overall program flow and testing.
 
 int main()
 {
-    // Create Student Object
+    
     Student student;
 
-    // Collect Student Profile
+    
     student.collectProfileData();
 
-    // Create Company Database
+   
     vector<Company*> companies;
 
     companies.push_back(new Google());
@@ -1093,7 +1086,7 @@ int main()
     companies.push_back(new Wipro());
     companies.push_back(new Accenture());
 
-    // Generate Student Report
+    
     generateStudentReport(student);
 
     cout << "\n\n";
@@ -1101,13 +1094,13 @@ int main()
     cout << "         COMPANY MATCHING ANALYSIS REPORT\n";
     cout << "=========================================================\n";
 
-    // Match Student with All Companies
+    
     for (auto company : companies)
     {
         company->matchAndAnalyze(student);
     }
 
-    // Dream Company Analysis
+    
     analyzeDreamCompany(student, companies);
 
     cout << "\n\n";
@@ -1118,22 +1111,23 @@ int main()
     // Predict Package
     float predictedPackage = predictPackage(student);
 
+    
     cout << "\nEstimated Placement Package : "
          << fixed
          << setprecision(2)
-         << predictedPackage
-         << " LPA\n";
+         << predictedPackage + " LPA\n";
 
     cout << "\n=========================================================\n";
     cout << "    THANK YOU FOR USING T&P CELL MANAGEMENT SYSTEM\n";
     cout << "=========================================================\n";
 
-    // Memory Cleanup
+    
     for (auto company : companies)
     {
+        
+        company == nullptr;
         delete company;
     }
 
     return 0;
 }
->>>>>>> 2a17f36 (Add JobRole structure, Company class and initial company modules)
