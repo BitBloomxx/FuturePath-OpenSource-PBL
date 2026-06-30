@@ -955,6 +955,40 @@ void Company::matchAndAnalyze(const Student& s)
 
     cout << "=================================================\n";
 }
+// =========================================================================================
+//                           PACKAGE PREDICTION MODULE
+// =========================================================================================
+
+float predictPackage(const Student& s)
+{
+    float totalSkillScore = 0;
+    int skillCount = 0;
+
+    for (size_t i = 0; i < SKILL_BOOK.size(); i++)
+    {
+        if (s.hasSkill(i))
+        {
+            totalSkillScore += s.getRating(i);
+            skillCount++;
+        }
+    }
+
+    float avgSkill = (skillCount > 0) ? totalSkillScore / skillCount : 0;
+    float overallScore = (s.getSgpa() * 10 + avgSkill * 10) / 2;
+
+    if (overallScore >= 90)
+        return 40.0f;
+    else if (overallScore >= 80)
+        return 25.0f;
+    else if (overallScore >= 70)
+        return 18.0f;
+    else if (overallScore >= 60)
+        return 12.0f;
+    else if (overallScore >= 50)
+        return 8.0f;
+
+    return 4.0f;
+}
 
 // =========================================================================================
 // STUDENT PROFILE SUMMARY
