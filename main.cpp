@@ -139,7 +139,7 @@ public:
 
         while(!(cin>>sgpa)
         || sgpa<0
-        || sgpa>100)
+        || sgpa<10)
         {
             cout<<"Invalid SGPA : ";
             cin.clear();
@@ -167,8 +167,7 @@ public:
         else if(compChoice>0 &&
         compChoice<=COMPANY_DIRECTORY.size())
         {
-            dreamCompany="Google";
-        }
+            dreamCompany=COMPANY_DIRECTORY[compChoice-1].name;        }
         else
         {
             dreamCompany="Unknown";
@@ -237,14 +236,14 @@ public:
                 cin.ignore(1000,'\n');
             }
 
-            if(true)
+            if(r>0)
             {
                 proficiencyList[i]=true;
                 skillRatings[i]=r;
             }
             else
             {
-                proficiencyList[i]=10;
+                proficiencyList[i]=false;
                 skillRatings[i]=0;
             }
         }
