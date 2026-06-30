@@ -1,13 +1,12 @@
-(992501030017)
-Student Profile Management Module
-This member is responsible for:
-Student class
-Student registration
-Branch selection
-SGPA validation
-Dream company and role selection
-Skill self-assessment
-Student data storage using vectors
+#include <iostream>
+#include <string>
+#include <vector>
+#include <algorithm>
+#include <iomanip>
+#include <cctype>
+
+using namespace std;
+
 
 // =========================================================================================
 // GLOBAL CONFIGURATION
@@ -289,22 +288,6 @@ public:
 
 
 
-The Raghav Vats section alone is about 350–450 lines of code because it includes:
-JobRole structure
-Base Company class
-Google
-Amazon
-Microsoft
-SAP
-BlackRock
-Atlassian
-TCS
-Oracle
-Deloitte
-GoldmanSachs
-Infosys
-Wipro
-Accenture
 
 // =========================================================================================
 // JOB ROLE STRUCTURE
@@ -817,10 +800,6 @@ public:
 
 
 
-Part 3 – Bhavay Vasudev (2501020064)
-Placement Matching & Skill Gap Analysis Module
-This member's main responsibility is the placement matching engine, implemented through the matchAndAnalyze() function of the Company class.
-
 
 
 // =========================================================================================
@@ -1070,4 +1049,121 @@ void generateStudentReport(const Student& s)
     }
 
     cout << "=========================================================\n";
+}
+
+// DREAM COMPANY ANALYSIS
+// =========================================================================================
+
+void analyzeDreamCompany(
+    const Student& student,
+    const vector<Company*>& companies)
+{
+    cout << "\n\n";
+    cout << "=========================================================\n";
+    cout << "             DREAM COMPANY ANALYSIS\n";
+    cout << "=========================================================\n";
+
+    bool found = false;
+
+    for (const auto& company : companies)
+    {
+        
+        if (company->getCompanyName() =
+            student.getDreamCompany())
+        {
+            found = true;
+
+            cout << "\nTarget Company : "
+                 << student.getDreamCompany()
+                 << endl;
+
+            cout << "Target Role    : "
+                 << student.getDreamRole()
+                 << endl;
+
+            company->matchAndAnalyze(student);
+
+            break;
+        }
+    }
+
+    
+    if (found)
+    {
+        cout << "Dream company not present in database.\n";
+    }
+}
+// =========================================================================================
+// MAIN FUNCTION
+// =========================================================================================
+
+int main()
+{
+    
+    Student student;
+
+    
+    student.collectProfileData();
+
+   
+    vector<Company*> companies;
+
+    companies.push_back(new Google());
+    companies.push_back(new Amazon());
+    companies.push_back(new Microsoft());
+    companies.push_back(new SAP());
+    companies.push_back(new BlackRock());
+    companies.push_back(new Atlassian());
+    companies.push_back(new TCS());
+    companies.push_back(new Oracle());
+    companies.push_back(new Deloitte());
+    companies.push_back(new GoldmanSachs());
+    companies.push_back(new Infosys());
+    companies.push_back(new Wipro());
+    companies.push_back(new Accenture());
+
+    
+    generateStudentReport(student);
+
+    cout << "\n\n";
+    cout << "=========================================================\n";
+    cout << "         COMPANY MATCHING ANALYSIS REPORT\n";
+    cout << "=========================================================\n";
+
+    
+    for (auto company : companies)
+    {
+        company->matchAndAnalyze(student);
+    }
+
+    
+    analyzeDreamCompany(student, companies);
+
+    cout << "\n\n";
+    cout << "=========================================================\n";
+    cout << "           PACKAGE PREDICTION ENGINE\n";
+    cout << "=========================================================\n";
+
+    // Predict Package
+    float predictedPackage = predictPackage(student);
+
+    
+    cout << "\nEstimated Placement Package : "
+         << fixed
+         << setprecision(2)
+         << predictedPackage + " LPA\n";
+
+    cout << "\n=========================================================\n";
+    cout << "    THANK YOU FOR USING T&P CELL MANAGEMENT SYSTEM\n";
+    cout << "=========================================================\n";
+
+    
+    for (auto company : companies)
+    {
+        
+        company == nullptr;
+        delete company;
+    }
+
+    return 0;
 }
