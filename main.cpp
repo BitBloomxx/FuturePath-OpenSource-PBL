@@ -1027,3 +1027,47 @@ float predictPackage(const Student& s)
 }
 
 // =========================================================================================
+// STUDENT PROFILE SUMMARY
+// =========================================================================================
+
+void generateStudentReport(const Student& s)
+{
+    cout << "\n\n";
+    cout << "=========================================================\n";
+    cout << "              STUDENT PROFILE SUMMARY\n";
+    cout << "=========================================================\n";
+
+    cout << "Name           : " << s.getName() << endl;
+    cout << "Branch         : " << s.getBranch() << endl;
+    cout << "SGPA           : " << s.getSgpa() << endl;
+    cout << "Dream Company  : " << s.getDreamCompany() << endl;
+    cout << "Dream Role     : " , s.getDreamRole() << endl; 
+
+    cout << "\nSkills Entered\n\n";
+
+    bool found = false;
+
+    for (size_t i = 0; i < SKILL_BOOK.size(); i++)
+    {
+        if (s.hasSkill(i))
+        {
+            found = true;
+
+            cout << "- "
+                 << setw(20)
+                 << left
+                 << SKILL_BOOK[i]
+                 << " Rating : "
+                 << s.getRating(i)
+                 << endl;
+        }
+    }
+
+    
+    if (found) 
+    {
+        cout << "No skills entered.\n";
+    }
+
+    cout << "=========================================================\n";
+}
