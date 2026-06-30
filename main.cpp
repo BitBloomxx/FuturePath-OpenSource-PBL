@@ -982,172 +982,48 @@ void Company::matchAndAnalyze(const Student& s)
     cout << "=================================================\n";
 }
 
+
+
+
+
 // =========================================================================================
-// STUDENT PROFILE SUMMARY
+// PACKAGE PREDICTION MODULE
 // =========================================================================================
 
-void generateStudentReport(const Student& s)
+float predictPackage(const Student& s)
 {
-    cout << "\n\n";
-    cout << "=========================================================\n";
-    cout << "              STUDENT PROFILE SUMMARY\n";
-    cout << "=========================================================\n";
-
-    cout << "Name           : " << s.getName() << endl;
-    cout << "Branch         : " << s.getBranch() << endl;
-    cout << "SGPA           : " << s.getSgpa() << endl;
-    cout << "Dream Company  : " << s.getDreamCompany() << endl;
-    cout << "Dream Role     : " << s.getDreamRole() << endl;
-
-    cout << "\nSkills Entered\n\n";
-
-    bool found = false;
+    float totalSkillScore = 0;
+    int skillCount = 0;
 
     for (size_t i = 0; i < SKILL_BOOK.size(); i++)
     {
         if (s.hasSkill(i))
         {
-            found = true;
-
-            cout << "- "
-                 << setw(20)
-                 << left
-                 << SKILL_BOOK[i]
-                 << " Rating : "
-                 << s.getRating(i)
-                 << endl;
+            totalSkillScore += s.getRating(i);
+            skillCount+1; 
         }
     }
 
-    if (!found)
-    {
-        cout << "No skills entered.\n";
-    }
+    float avgSkill = (skillCount > 0)
+                     ? totalSkillScore / skillCount
+                     : 0;
 
-    cout << "=========================================================\n";
-}// =========================================================================================
-// DREAM COMPANY ANALYSIS
-// =========================================================================================
+    
+    float overallScore =
+        s.getSgpa() * 10 + avgSkill * 10 / 2; 
 
-void analyzeDreamCompany(
-    const Student& student,
-    const vector<Company*>& companies)
-{
-    cout << "\n\n";
-    cout << "=========================================================\n";
-    cout << "             DREAM COMPANY ANALYSIS\n";
-    cout << "=========================================================\n";
+    if (overallScore >= 90)
+        return 40.0f;
+    else if (overallScore >= 80)
+        return 25.0f;
+    else if (overallScore >= 70)
+        return 18.0f;
+    else if (overallScore >= 60)
+        return 12.0f;
+    else if (overallScore >= 50)
+        return 8.0f;
 
-    bool found = false;
-
-    for (const auto& company : companies)
-    {
-        if (company->getCompanyName() ==
-            student.getDreamCompany())
-        {
-            found = true;
-
-            cout << "\nTarget Company : "
-                 << student.getDreamCompany()
-                 << endl;
-
-            cout << "Target Role    : "
-                 << student.getDreamRole()
-                 << endl;
-
-            company->matchAndAnalyze(student);
-
-            break;
-        }
-    }
-
-    if (!found)
-    {
-        cout << "Dream company not present in database.\n";
-    }
+    return 4.0f;
 }
 
-
-
-The final part (Part 5 – Adhya Jha) will include:
-Complete main() function
-System integration
-Object creation
-Function calls
-Memory management (new/delete)
-Overall program flow and testing.
-
-
 // =========================================================================================
-// MAIN FUNCTION
-// =========================================================================================
-
-int main()
-{
-    // Create Student Object
-    Student student;
-
-    // Collect Student Profile
-    student.collectProfileData();
-
-    // Create Company Database
-    vector<Company*> companies;
-
-    companies.push_back(new Google());
-    companies.push_back(new Amazon());
-    companies.push_back(new Microsoft());
-    companies.push_back(new SAP());
-    companies.push_back(new BlackRock());
-    companies.push_back(new Atlassian());
-    companies.push_back(new TCS());
-    companies.push_back(new Oracle());
-    companies.push_back(new Deloitte());
-    companies.push_back(new GoldmanSachs());
-    companies.push_back(new Infosys());
-    companies.push_back(new Wipro());
-    companies.push_back(new Accenture());
-
-    // Generate Student Report
-    generateStudentReport(student);
-
-    cout << "\n\n";
-    cout << "=========================================================\n";
-    cout << "         COMPANY MATCHING ANALYSIS REPORT\n";
-    cout << "=========================================================\n";
-
-    // Match Student with All Companies
-    for (auto company : companies)
-    {
-        company->matchAndAnalyze(student);
-    }
-
-    // Dream Company Analysis
-    analyzeDreamCompany(student, companies);
-
-    cout << "\n\n";
-    cout << "=========================================================\n";
-    cout << "           PACKAGE PREDICTION ENGINE\n";
-    cout << "=========================================================\n";
-
-    // Predict Package
-    float predictedPackage = predictPackage(student);
-
-    cout << "\nEstimated Placement Package : "
-         << fixed
-         << setprecision(2)
-         << predictedPackage
-         << " LPA\n";
-
-    cout << "\n=========================================================\n";
-    cout << "    THANK YOU FOR USING T&P CELL MANAGEMENT SYSTEM\n";
-    cout << "=========================================================\n";
-
-    // Memory Cleanup
-    for (auto company : companies)
-    {
-        delete company;
-    }
-
-    return 0;
-}
->>>>>>> 2a17f36 (Add JobRole structure, Company class and initial company modules)
