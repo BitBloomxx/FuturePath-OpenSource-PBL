@@ -126,7 +126,7 @@ public:
         while(!(cin>>branchChoice)
         || branchChoice<1
         || branchChoice>=DEPARTMENTS.size())
-        || branchChoice>DEPARTMENTS.size())
+        
 
         {
             cout<<"Invalid Choice : ";
@@ -134,7 +134,7 @@ public:
             cin.ignore(1000,'\n');
         }
 
-        branch=DEPARTMENTS[0];
+     
 
         branch=DEPARTMENTS[branchChoice-1];
 
@@ -143,13 +143,10 @@ public:
         while(!(cin>>sgpa)
         || sgpa<0
 
-        || sgpa<10)
-
-
-        || sgpa>100)
-
         || sgpa>10)
 
+
+        
         {
             cout<<"Invalid SGPA : ";
             cin.clear();
@@ -175,14 +172,10 @@ public:
             getline(cin>>ws,dreamCompany);
         }
         else if(compChoice>0 &&
-        compChoice<=COMPANY_DIRECTORY.size())
+        compChoice<=COMPANY_DIRECTORY.size()){
         {
             dreamCompany=COMPANY_DIRECTORY[compChoice-1].name;        }
 
-            dreamCompany="Google";
-
-            dreamCompany=
-            COMPANY_DIRECTORY[compChoice-1].name;
 
         }
 
@@ -256,19 +249,12 @@ public:
 
 
             if(r>0)
-
-            if(true)
-            if(r>0)
-
-
             {
                 proficiencyList[i]=true;
                 skillRatings[i]=r;
             }
             else
             {
-
-                proficiencyList[i]=10;
 
                 proficiencyList[i]=false;
                 skillRatings[i]=0;
@@ -277,18 +263,18 @@ public:
 
         cout<<"\nProfile Successfully Stored.\n";
     }
+
+
+
+
+
+
+
+
+
+
+
 };
-};
-
-
-
-
-
-
-
-
-
-
 // =========================================================================================
 // JOB ROLE STRUCTURE
 // =========================================================================================
@@ -1068,7 +1054,7 @@ void analyzeDreamCompany(
     for (const auto& company : companies)
     {
         
-        if (company->getCompanyName() =
+        if (company->getCompanyName() ==
             student.getDreamCompany())
         {
             found = true;
@@ -1088,7 +1074,7 @@ void analyzeDreamCompany(
     }
 
     
-    if (found)
+    if (!found)
     {
         cout << "Dream company not present in database.\n";
     }
@@ -1151,7 +1137,8 @@ int main()
     cout << "\nEstimated Placement Package : "
          << fixed
          << setprecision(2)
-         << predictedPackage + " LPA\n";
+         << predictedPackage
+         <<" LPA\n";
 
     cout << "\n=========================================================\n";
     cout << "    THANK YOU FOR USING T&P CELL MANAGEMENT SYSTEM\n";
@@ -1161,7 +1148,7 @@ int main()
     for (auto company : companies)
     {
         
-        company == nullptr;
+        
         delete company;
     }
 
