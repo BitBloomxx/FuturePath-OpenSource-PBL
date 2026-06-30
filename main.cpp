@@ -815,7 +815,6 @@ This member's main responsibility is the placement matching engine, implemented 
 
 void Company::matchAndAnalyze(const Student& s)
 {
-    bool branchEligible = false;
     bool anyRoleFound = false;
 
     cout << "\n--- Processing Application for "
@@ -824,9 +823,9 @@ void Company::matchAndAnalyze(const Student& s)
 
     for (const auto& job : roles)
     {
-        // ---------------- Branch Eligibility ----------------
+        bool branchEligible = false;
 
-        branchEligible = false;
+        // ---------------- Branch Eligibility ----------------
 
         for (const string& b : job.eligibleBranches)
         {
@@ -849,21 +848,33 @@ void Company::matchAndAnalyze(const Student& s)
 
         // ---------------- Skill Matching ----------------
 
-        float matchCount = 0;
-        float totalRequirements = 0;
+        float matchedSkills = 0;
+        float totalRequiredSkills = 0;
 
         vector<string> missingSkills;
+        vector<string> strongSkills;
 
         for (size_t i = 0; i < SKILL_BOOK.size(); i++)
         {
             if (job.skillReqs[i] > 0)
             {
-                totalRequirements++;
+                totalRequiredSkills++;
 
-                if (s.hasSkill(i) &&
-                    s.getRating(i) >= job.skillReqs[i])
+                if (s.hasSkill(i))
                 {
-                    matchCount++;
+                    if (s.getRating(i) >= job.skillReqs[i])
+                    {
+                        matchedSkills++;
+
+                        if (s.getRating(i) >= job.skillReqs[i] + 2)
+                        {
+                            strongSkills.push_back(SKILL_BOOK[i]);
+                        }
+                    }
+                    else
+                    {
+                        missingSkills.push_back(SKILL_BOOK[i]);
+                    }
                 }
                 else
                 {
@@ -875,7 +886,7 @@ void Company::matchAndAnalyze(const Student& s)
         // ---------------- Match Percentage ----------------
 
         float finalPercent =
-            (matchCount / totalRequirements) * 100.0f;
+            (matchedSkills / totalRequiredSkills) * 100.0f;
 
         cout << "\nRole : "
              << job.roleName
@@ -884,27 +895,46 @@ void Company::matchAndAnalyze(const Student& s)
              << "/10)\n";
 
         cout << "Match Percentage : "
-             << fixed
-             << setprecision(2)
+             << fixed << setprecision(2)
              << finalPercent
              << "%\n";
 
-        // ---------------- Result ----------------
+        // ---------------- Verdict ----------------
 
         if (finalPercent >= 85)
         {
             cout << "Verdict : Highly Compatible\n";
+            cout << "Selection Probability : High\n";
             cout << "Predicted Round : Final Interview\n";
         }
         else if (finalPercent >= 60)
         {
             cout << "Verdict : Moderate Match\n";
+            cout << "Selection Probability : Medium\n";
             cout << "Recommendation : Brush up on core skills\n";
         }
         else
         {
             cout << "Verdict : Low Match\n";
-            cout << "Recommendation : Improve missing skills\n";
+            cout << "Selection Probability : Low\n";
+            cout << "Recommendation : Significant preparation required\n";
+        }
+
+        // ---------------- Strong Skills ----------------
+
+        if (!strongSkills.empty())
+        {
+            cout << "Strong Skills : ";
+
+            for (size_t i = 0; i < strongSkills.size(); i++)
+            {
+                cout << strongSkills[i];
+
+                if (i != strongSkills.size() - 1)
+                    cout << ", ";
+            }
+
+            cout << endl;
         }
 
         // ---------------- Skill Gap Analysis ----------------
@@ -923,6 +953,8 @@ void Company::matchAndAnalyze(const Student& s)
 
             cout << endl;
         }
+
+        cout << "-------------------------------------------------\n";
     }
 
     // ---------------- No Eligible Role ----------------
@@ -933,56 +965,10 @@ void Company::matchAndAnalyze(const Student& s)
              << "Branch/SGPA criteria for this company.\n";
     }
 
-    cout << "-------------------------------------------------\n";
+    cout << "=================================================\n";
 }
 
-
-Part 4 – Akshita Dwivedi (992501030031)
-Report Generation & Package Prediction Module
-This member is responsible for:
-Student Profile Summary Report
-Dream Company Analysis
-Package Prediction Engine
-
-
 // =========================================================================================
-// PACKAGE PREDICTION MODULE
-// =========================================================================================
-
-float predictPackage(const Student& s)
-{
-    float totalSkillScore = 0;
-    int skillCount = 0;
-
-    for (size_t i = 0; i < SKILL_BOOK.size(); i++)
-    {
-        if (s.hasSkill(i))
-        {
-            totalSkillScore += s.getRating(i);
-            skillCount++;
-        }
-    }
-
-    float avgSkill = (skillCount > 0)
-                     ? totalSkillScore / skillCount
-                     : 0;
-
-    float overallScore =
-        (s.getSgpa() * 10 + avgSkill * 10) / 2;
-
-    if (overallScore >= 90)
-        return 40.0f;
-    else if (overallScore >= 80)
-        return 25.0f;
-    else if (overallScore >= 70)
-        return 18.0f;
-    else if (overallScore >= 60)
-        return 12.0f;
-    else if (overallScore >= 50)
-        return 8.0f;
-
-    return 4.0f;
-}// =========================================================================================
 // STUDENT PROFILE SUMMARY
 // =========================================================================================
 
