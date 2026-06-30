@@ -1,13 +1,12 @@
-(992501030017)
-Student Profile Management Module
-This member is responsible for:
-Student class
-Student registration
-Branch selection
-SGPA validation
-Dream company and role selection
-Skill self-assessment
-Student data storage using vectors
+#include <iostream>
+#include <string>
+#include <vector>
+#include <algorithm>
+#include <iomanip>
+#include <cctype>
+
+using namespace std;
+
 
 // =========================================================================================
 // GLOBAL CONFIGURATION
@@ -289,22 +288,6 @@ public:
 
 
 
-The Raghav Vats section alone is about 350–450 lines of code because it includes:
-JobRole structure
-Base Company class
-Google
-Amazon
-Microsoft
-SAP
-BlackRock
-Atlassian
-TCS
-Oracle
-Deloitte
-GoldmanSachs
-Infosys
-Wipro
-Accenture
 
 // =========================================================================================
 // JOB ROLE STRUCTURE
@@ -817,10 +800,6 @@ public:
 
 
 
-Part 3 – Bhavay Vasudev (2501020064)
-Placement Matching & Skill Gap Analysis Module
-This member's main responsibility is the placement matching engine, implemented through the matchAndAnalyze() function of the Company class.
-
 
 
 // =========================================================================================
@@ -1070,4 +1049,47 @@ void generateStudentReport(const Student& s)
     }
 
     cout << "=========================================================\n";
+}
+
+// DREAM COMPANY ANALYSIS
+// =========================================================================================
+
+void analyzeDreamCompany(
+    const Student& student,
+    const vector<Company*>& companies)
+{
+    cout << "\n\n";
+    cout << "=========================================================\n";
+    cout << "             DREAM COMPANY ANALYSIS\n";
+    cout << "=========================================================\n";
+
+    bool found = false;
+
+    for (const auto& company : companies)
+    {
+        
+        if (company->getCompanyName() =
+            student.getDreamCompany())
+        {
+            found = true;
+
+            cout << "\nTarget Company : "
+                 << student.getDreamCompany()
+                 << endl;
+
+            cout << "Target Role    : "
+                 << student.getDreamRole()
+                 << endl;
+
+            company->matchAndAnalyze(student);
+
+            break;
+        }
+    }
+
+    
+    if (found)
+    {
+        cout << "Dream company not present in database.\n";
+    }
 }
