@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include <string>
 #include <vector>
 #include <algorithm>
@@ -990,6 +991,69 @@ float predictPackage(const Student& s)
     return 4.0f;
 }
 
+
+// =========================================================================================
+//                          SAVE REPORT TO EXTERNAL TEXT FILE
+// =========================================================================================
+
+void saveReportToFile(const Student& s)
+{
+    // Open (or create) the file for writing
+    ofstream outFile("placement_report.txt");
+
+    if (!outFile) {
+        cout << "\n  [System Error] Could not create report file!\n";
+        return;
+    }
+
+    outFile << "=========================================================\n";
+    outFile << "                 STUDENT PROFILE SUMMARY\n";
+    outFile << "=========================================================\n";
+
+    outFile << "Name           : " << s.getName() << "\n";
+    outFile << "Branch         : " << s.getBranch() << "\n";
+    outFile << "SGPA           : " << s.getSgpa() << "\n";
+    outFile << "Dream Company  : " << s.getDreamCompany() << "\n";
+    outFile << "Dream Role     : " << s.getDreamRole() << "\n";
+
+    outFile << "\nSkills Entered:\n";
+
+    bool found = false;
+    for (size_t i = 0; i < SKILL_BOOK.size(); i++)
+    {
+        if (s.hasSkill(i))
+        {
+            found = true;
+            outFile << "  - "
+                    << setw(20)
+                    << left
+                    << SKILL_BOOK[i]
+                    << " Rating: "
+                    << s.getRating(i)
+                    << "\n";
+        }
+    }
+
+    if (!found)
+    {
+        outFile << "No skills entered.\n";
+    }
+
+    // You can also append the final package estimate metric here
+    float predictedPackage = predictPackage(s);
+    outFile << "\nEstimated Placement Package : " 
+            << fixed << setprecision(2) << predictedPackage << " LPA\n";
+
+    outFile << "=========================================================\n";
+    outFile << "      THANK YOU FOR USING T&P CELL MANAGEMENT SYSTEM\n";
+    outFile << "=========================================================\n";
+
+    // Close the stream to release the file lock
+    outFile.close();
+
+    cout << "\n  [System] Success! A copy of your report has been saved to 'placement_report.txt'.\n";
+}
+
 // =========================================================================================
 // STUDENT PROFILE SUMMARY
 // =========================================================================================
@@ -1140,6 +1204,9 @@ int main()
          << setprecision(2)
          << predictedPackage
          <<" LPA\n";
+
+    
+    saveReportToFile(student);     
 
     cout << "\n=========================================================\n";
     cout << "    THANK YOU FOR USING T&P CELL MANAGEMENT SYSTEM\n";
