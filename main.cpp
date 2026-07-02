@@ -154,35 +154,74 @@ public:
             cin.ignore(1000,'\n');
         }
 
-        cout<<"\nSelect Dream Company\n";
+        cout << "\nSelect Dream Company\n";
+        cout << "[1] Search by Company Name\n";
+        cout << "[2] Choose from List\n";
 
-        for(size_t i=0;i<COMPANY_DIRECTORY.size();i++)
+        int option;
+        cout << "Choice: ";
+        cin >> option;
+
+        if(option == 1)
         {
-            cout<<"["<<i+1<<"] "
-            <<COMPANY_DIRECTORY[i].name<<endl;
+            cout << "Enter Company Name: ";
+            getline(cin >> ws, dreamCompany);
+
+            bool found = false;
+
+            for(const auto &comp : COMPANY_DIRECTORY)
+            {
+                string stored = comp.name;
+                string entered = dreamCompany;
+
+                transform(stored.begin(), stored.end(), stored.begin(), ::tolower); //Note to all members:transform function takes a collection of data, applies a specific action or rule to every single item inside it, and saves the modified results
+                transform(entered.begin(), entered.end(), entered.begin(), ::tolower);
+
+                if(stored == entered)
+                {
+                    dreamCompany = comp.name;
+                    found = true;
+                    break;
+                }
+            }
+
+            if(!found)
+            {
+                cout << "Company not found. Setting company as Unknown.\n";
+                dreamCompany = "Unknown";
+            }
         }
-
-        cout<<"[0] Enter Manually\n";
-
-        int compChoice;
-
-        cin>>compChoice;
-
-        if(compChoice==0)
+        else if(option == 2)
         {
-            getline(cin>>ws,dreamCompany);
+            for(size_t i = 0; i < COMPANY_DIRECTORY.size(); i++)
+            {
+                cout << "[" << i + 1 << "] "
+                    << COMPANY_DIRECTORY[i].name << endl;
+            }
+
+            cout << "[0] Enter Manually\n";
+
+            int compChoice;
+            cin >> compChoice;
+
+            if(compChoice == 0)
+            {
+                cout << "Enter Company Name: ";
+                getline(cin >> ws, dreamCompany);
+            }
+            else if(compChoice > 0 && compChoice <= COMPANY_DIRECTORY.size())
+            {
+                dreamCompany = COMPANY_DIRECTORY[compChoice - 1].name;
+            }
+            else
+            {
+                dreamCompany = "Unknown";
+            }
         }
-        else if(compChoice>0 &&
-        compChoice<=COMPANY_DIRECTORY.size()){
-        {
-            dreamCompany=COMPANY_DIRECTORY[compChoice-1].name;        }
-
-
-        }
-
         else
         {
-            dreamCompany="Unknown";
+            cout << "Invalid option.\n";
+            dreamCompany = "Unknown";
         }
 
         bool found=false;
