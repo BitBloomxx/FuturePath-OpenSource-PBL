@@ -61,6 +61,10 @@ private:
     string dreamCompany;
     string dreamRole;
 
+    int projectCount;
+    int internshipMonths;
+    float interviewScore;
+
     vector<float> skillRatings;
     vector<bool> proficiencyList;
 
@@ -73,6 +77,10 @@ public:
         fullName = "";
         branch = "";
         sgpa = 0.0f;
+	
+	projectCount = 0;
+	internshipMonths = 0;
+	interviewScore = 0;
     }
 
     string getName() const {
@@ -93,6 +101,18 @@ public:
 
     string getDreamRole() const {
         return dreamRole;
+    }
+
+    int getProjectCount() const {
+    return projectCount;
+    }
+
+    int getInternshipMonths() const {
+    return internshipMonths;
+    }
+
+    float getInterviewScore() const {
+    return interviewScore;
     }
 
     float getRating(int index) const {
@@ -262,20 +282,27 @@ public:
             }
         }
 
+    cout << "\nNumber of Technical Projects : ";
+    cin >> projectCount;
+
+    cout << "Internship Duration (months) : ";
+    cin >> internshipMonths;
+
+    cout << "Mock Interview Score (0-10) : ";
+
+    while (!(cin >> interviewScore) || interviewScore < 0 || interviewScore > 10)
+    {
+        cout << "Enter between 0 and 10 : ";
+        cin.clear();
+        cin.ignore(1000, '\n');
+    }
+
         cout<<"\nProfile Successfully Stored.\n";
     }
 
-
-
-
-
-
-
-
-
-
-
 };
+
+
 // =========================================================================================
 // JOB ROLE STRUCTURE
 // =========================================================================================
@@ -975,7 +1002,10 @@ float predictPackage(const Student& s)
     }
 
     float avgSkill = (skillCount > 0) ? totalSkillScore / skillCount : 0;
-    float overallScore = (s.getSgpa() * 10 + avgSkill * 10) / 2;
+    float projectScore = min(s.getProjectCount() * 2.0f, 10.0f);
+    float internshipScore = min((float)s.getInternshipMonths(), 10.0f);
+
+    float overallScore = (s.getSgpa() * 5 + avgSkill * 3 + projectScore + internshipScore + s.getInterviewScore()) * 2;
 
     if (overallScore >= 90)
         return 40.0f;
@@ -1015,6 +1045,9 @@ void saveReportToFile(const Student& s)
     outFile << "SGPA           : " << s.getSgpa() << "\n";
     outFile << "Dream Company  : " << s.getDreamCompany() << "\n";
     outFile << "Dream Role     : " << s.getDreamRole() << "\n";
+    outFile << "Projects       : " << s.getProjectCount() << "\n";
+    outFile << "Internship     : " << s.getInternshipMonths() << " month(s)\n";
+    outFile << "Interview Score: " << s.getInterviewScore() << "/10\n";
 
     outFile << "\nSkills Entered:\n";
 
@@ -1070,6 +1103,9 @@ void generateStudentReport(const Student& s)
     cout << "SGPA           : " << s.getSgpa() << endl;
     cout << "Dream Company  : " << s.getDreamCompany() << endl;
     cout << "Dream Role     : " << s.getDreamRole() << endl; 
+    cout << "Projects       : " << s.getProjectCount() << endl;
+    cout << "Internship     : " << s.getInternshipMonths() << " month(s)" << endl;
+    cout << "Interview Score: " << s.getInterviewScore() << "/10" << endl;
 
     cout << "\nSkills Entered\n\n";
 
